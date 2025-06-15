@@ -34,7 +34,7 @@ function updateDisplay() {
 }
 
 function clearScreen() {
-    value = "0.0";
+    currentExpression = "0.0";
     updateDisplay();
 }
 
@@ -47,16 +47,19 @@ function registerNumber(n) {
     updateDisplay();
 }
 
-function initNumberButtons() {
+function initButtons() {
     const numberButtons = document.querySelectorAll(".number-button");
     for (let button of numberButtons)
         button.addEventListener("click", () => {
             registerNumber(button.textContent);
         });
+
+    const clearButton = document.querySelector(".clear-button");
+    clearButton.addEventListener("click", () => { clearScreen(); })
 }
 
 let currentExpression = "0.0";
 const display = document.querySelector(".display");
 
 updateDisplay();
-initNumberButtons();
+initButtons();
