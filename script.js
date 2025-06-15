@@ -38,7 +38,7 @@ function clearScreen() {
     updateDisplay();
 }
 
-function registerNumber(n) {
+function addNumber(n) {
     if (currentExpression === "0.0")
         currentExpression = "";
 
@@ -47,15 +47,34 @@ function registerNumber(n) {
     updateDisplay();
 }
 
+function addOperator(op) {
+    if (("+-*/".includes(currentExpression[currentExpression.length - 2])) || (currentExpression === "0.0")) return;
+
+    currentExpression += ` ${op} `;
+
+    updateDisplay();
+}
+
 function initButtons() {
     const numberButtons = document.querySelectorAll(".number-button");
-    for (let button of numberButtons)
+    for (let button of numberButtons) {
         button.addEventListener("click", () => {
-            registerNumber(button.textContent);
+            addNumber(button.textContent);
         });
+    }
+
+    const operatorButtons = document.querySelectorAll(".operator-button");
+    for (let button of operatorButtons) {
+        button.addEventListener("click", () => {
+            addOperator(button.textContent);
+        });
+    }
+
+    const operateButton = document.querySelector(".operate-button");
+    operateButton.addEventListener("click", () => { decodeOperation(); });    
 
     const clearButton = document.querySelector(".clear-button");
-    clearButton.addEventListener("click", () => { clearScreen(); })
+    clearButton.addEventListener("click", () => { clearScreen(); });
 }
 
 let currentExpression = "0.0";
