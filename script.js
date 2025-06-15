@@ -1,3 +1,10 @@
+function decodeOperation() {
+    const values = currentExpression.split(" ");
+    console.table(values);
+    
+    operate(parseInt(values[0]), parseInt(values[2]), values[1]);
+}
+
 function add(a, b) {
     return a + b;
 }
@@ -17,16 +24,23 @@ function divide(a, b) {
 function operate(a, b, op) {
     switch (op) {
         case '+':
-            return add(a, b);
+            currentExpression = add(a, b);
+            break;
         case '-':
-            return subtract(a, b);
+            currentExpression = subtract(a, b);
+            break;
         case '*':
-            return multiply(a, b);
+            currentExpression = multiply(a, b);
+            break;
         case '/':
-            return divide(a, b);
+            currentExpression = divide(a, b);
+            break;
         default:
+            clearScreen();
             break;
     }
+
+    updateDisplay();
 }
 
 function updateDisplay() {
