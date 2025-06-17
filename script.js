@@ -1,6 +1,8 @@
 function decodeOperation() {
     const values = expression.split(" ");
 
+    // Check wether the operation is valid
+    // If the second operator is missing, operation is invalid: first operator is stored in memory and screen is cleared
     if (values[2] === "") {
         input = values[0];
         expression = "";
@@ -10,9 +12,11 @@ function decodeOperation() {
 
         expression = values[0];
     } else {
+        // If the operation is valid, operate() is called to parse the result
         operate(parseInt(values[0]), parseInt(values[2]), values[1]);
     }    
 
+    // After decoding/evaluating, toggles are "reset" 
     operatorPresent = false;
     operatorWasLastPressed = false;
     resultInMemory = true;
@@ -52,6 +56,7 @@ function operate(a, b, op) {
             input = divide(a, b);
             break;
         default:
+            input = "ERROR";
             clearScreen();
             break;
     }
@@ -81,9 +86,12 @@ function clearScreen() {
     updateExpressionDisplay();
 }
 
+
+// Number is pressed
 function addNumber(n) {
     operatorWasLastPressed = false;
 
+    // Check wether the calculator is displaying a previous result: in such cases, start over 
     if (resultInMemory) {
         expression = "";
         input = "";
@@ -91,7 +99,7 @@ function addNumber(n) {
 
     expression += n;
 
-    if (input === "0") input = n;
+    if (input === "0") input = n; // Necessary to avoid appending the first digit to the placeholder 0
     else input += n;
     
     updateDisplay();
@@ -99,10 +107,12 @@ function addNumber(n) {
     resultInMemory = false;
 }
 
+// Operator is pressed
 function addOperator(op) {
-    if (operatorWasLastPressed) return;
+    if (operatorWasLastPressed) return; // Ignore subsequent operators if an operator was last pressed
 
-    if (operatorPresent) decodeOperation();
+    // Check to see if expression already contains a valid expression: if it does, evaluate it first
+    if (operatorPresent) decodeOperation(); 
 
     expression += ` ${op} `;
     updateExpressionDisplay();
