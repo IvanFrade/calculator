@@ -31,7 +31,10 @@ function multiply(a, b) {
 }
 
 function divide(a, b) {
-    return a / b;
+    if (b === 0)
+        return "ERROR";
+    else
+        return a / b;
 }
 
 function operate(a, b, op) {
@@ -81,12 +84,19 @@ function clearScreen() {
 function addNumber(n) {
     operatorWasLastPressed = false;
 
+    if (resultInMemory) {
+        expression = "";
+        input = "";
+    }
+
     expression += n;
 
     if (input === "0") input = n;
     else input += n;
     
     updateDisplay();
+
+    resultInMemory = false;
 }
 
 function addOperator(op) {
