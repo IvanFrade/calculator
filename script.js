@@ -24,33 +24,40 @@ function divide(a, b) {
 function operate(a, b, op) {
     switch (op) {
         case '+':
-            expression = add(a, b);
+            input = add(a, b);
             break;
         case '-':
-            expression = subtract(a, b);
+            input = subtract(a, b);
             break;
         case '*':
-            expression = multiply(a, b);
+            input = multiply(a, b);
             break;
         case '/':
-            expression = divide(a, b);
+            input = divide(a, b);
             break;
         default:
             clearScreen();
             break;
     }
 
+    expression = "";
     updateDisplay();
+    updateExpressionDisplay();
+
+    expression = input;
 }
 
 function updateDisplay() {
     display.textContent = input;
-    expressionDisplay.textContent = expression
+}
+
+function updateExpressionDisplay() {
+    expressionDisplay.textContent = expression;
 }
 
 function clearScreen() {
     expression = "";
-    input = "0.0";
+    input = "0";
     updateDisplay();
 }
 
@@ -68,7 +75,7 @@ function addOperator(op) {
     if (("+-*/".includes(expression[expression.length - 2])) || (expression === "0.0")) return;
 
     expression += ` ${op} `;
-    updateDisplay();
+    updateExpressionDisplay();
 
     input = "";
     operatorPresent = true;

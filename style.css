@@ -22,4 +22,5 @@ button {
 
 .expression-display {
     text-align: right;
+    height: 40px;
 }
