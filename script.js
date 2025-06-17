@@ -1,7 +1,20 @@
 function decodeOperation() {
     const values = expression.split(" ");
     
-    operate(parseInt(values[0]), parseInt(values[2]), values[1]);
+    if (values[2] === "") {
+        input = values[0];
+        expression = "";
+
+        updateDisplay();
+        updateExpressionDisplay();
+
+        expression = values[0];
+    } else {
+        operate(parseInt(values[0]), parseInt(values[2]), values[1]);
+    }    
+
+    operatorPresent = false;
+    operatorWasLastPressed = false;
 }
 
 function add(a, b) {
@@ -44,8 +57,6 @@ function operate(a, b, op) {
     updateExpressionDisplay();
 
     expression = input;
-    operatorPresent = false;
-    operatorWasLastPressed = false;
 }
 
 function updateDisplay() {
