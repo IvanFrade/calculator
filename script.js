@@ -129,6 +129,9 @@ function initButtons() {
         button.addEventListener("click", () => {
             addNumber(button.textContent);
         });
+        button.addEventListener("touchstart", () => {
+            addNumber(button.textContent);
+        });
     }
 
     const operatorButtons = document.querySelectorAll(".operator-button");
@@ -136,13 +139,18 @@ function initButtons() {
         button.addEventListener("click", () => {
             addOperator(button.textContent);
         });
+        button.addEventListener("touchstart", () => {
+            addOperator(button.textContent);
+        });
     }
 
     const operateButton = document.querySelector(".operate-button");
-    operateButton.addEventListener("click", () => { decodeOperation(); });    
+    operateButton.addEventListener("click", () => { decodeOperation(); });
+    operateButton.addEventListener("touchstart", () => { decodeOperation(); });     
 
     const clearButton = document.querySelector(".clear-button");
     clearButton.addEventListener("click", () => { clearScreen(); });
+    clearButton.addEventListener("touchstart", () => { clearScreen(); });
 }
 
 let expression = "";
