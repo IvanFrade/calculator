@@ -1,6 +1,6 @@
 function decodeOperation() {
     const values = expression.split(" ");
-    
+
     if (values[2] === "") {
         input = values[0];
         expression = "";
@@ -15,6 +15,7 @@ function decodeOperation() {
 
     operatorPresent = false;
     operatorWasLastPressed = false;
+    resultInMemory = true;
 }
 
 function add(a, b) {
@@ -72,7 +73,9 @@ function clearScreen() {
 
     expression = "";
     input = "0";
+
     updateDisplay();
+    updateExpressionDisplay();
 }
 
 function addNumber(n) {
@@ -126,8 +129,9 @@ let input = "0";
 
 let operatorPresent = false;
 let operatorWasLastPressed = false;
+let resultInMemory = false;
 
-const display = document.querySelector(".display");
+const display = document.querySelector(".input-display");
 const expressionDisplay = document.querySelector(".expression-display");
 
 updateDisplay();
