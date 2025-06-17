@@ -120,6 +120,7 @@ function addOperator(op) {
     input = "";
     operatorPresent = true;
     operatorWasLastPressed = true;
+    resultInMemory = false;
 }
 
 function initButtons() {
