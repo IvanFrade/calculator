@@ -1,5 +1,5 @@
 function decodeOperation() {
-    const values = currentExpression.split(" ");
+    const values = expression.split(" ");
     console.table(values);
     
     operate(parseInt(values[0]), parseInt(values[2]), values[1]);
@@ -24,16 +24,16 @@ function divide(a, b) {
 function operate(a, b, op) {
     switch (op) {
         case '+':
-            currentExpression = add(a, b);
+            expression = add(a, b);
             break;
         case '-':
-            currentExpression = subtract(a, b);
+            expression = subtract(a, b);
             break;
         case '*':
-            currentExpression = multiply(a, b);
+            expression = multiply(a, b);
             break;
         case '/':
-            currentExpression = divide(a, b);
+            expression = divide(a, b);
             break;
         default:
             clearScreen();
@@ -44,29 +44,34 @@ function operate(a, b, op) {
 }
 
 function updateDisplay() {
-    display.textContent = currentExpression;
+    display.textContent = input;
+    expressionDisplay.textContent = expression
 }
 
 function clearScreen() {
-    currentExpression = "0.0";
+    expression = "";
+    input = "0.0";
     updateDisplay();
 }
 
 function addNumber(n) {
-    if (currentExpression === "0.0")
-        currentExpression = "";
 
-    currentExpression += n;
+    expression += n;
+
+    if (input === "0") input = n;
+    else input += n;
     
     updateDisplay();
 }
 
 function addOperator(op) {
-    if (("+-*/".includes(currentExpression[currentExpression.length - 2])) || (currentExpression === "0.0")) return;
+    if (("+-*/".includes(expression[expression.length - 2])) || (expression === "0.0")) return;
 
-    currentExpression += ` ${op} `;
-
+    expression += ` ${op} `;
     updateDisplay();
+
+    input = "";
+    operatorPresent = true;
 }
 
 function initButtons() {
@@ -91,8 +96,13 @@ function initButtons() {
     clearButton.addEventListener("click", () => { clearScreen(); });
 }
 
-let currentExpression = "0.0";
+let expression = "";
+let input = "0";
+
+let operatorPresent = false;
+
 const display = document.querySelector(".display");
+const expressionDisplay = document.querySelector(".expression-display");
 
 updateDisplay();
 initButtons();
