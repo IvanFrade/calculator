@@ -1,6 +1,5 @@
 function decodeOperation() {
     const values = expression.split(" ");
-    console.table(values);
     
     operate(parseInt(values[0]), parseInt(values[2]), values[1]);
 }
@@ -45,6 +44,8 @@ function operate(a, b, op) {
     updateExpressionDisplay();
 
     expression = input;
+    operatorPresent = false;
+    operatorWasLastPressed = false;
 }
 
 function updateDisplay() {
@@ -56,12 +57,15 @@ function updateExpressionDisplay() {
 }
 
 function clearScreen() {
+    operatorWasLastPressed = false;
+
     expression = "";
     input = "0";
     updateDisplay();
 }
 
 function addNumber(n) {
+    operatorWasLastPressed = false;
 
     expression += n;
 
@@ -72,13 +76,16 @@ function addNumber(n) {
 }
 
 function addOperator(op) {
-    if (("+-*/".includes(expression[expression.length - 2])) || (expression === "0.0")) return;
+    if (operatorWasLastPressed) return;
+
+    if (operatorPresent) decodeOperation();
 
     expression += ` ${op} `;
     updateExpressionDisplay();
 
     input = "";
     operatorPresent = true;
+    operatorWasLastPressed = true;
 }
 
 function initButtons() {
@@ -107,6 +114,7 @@ let expression = "";
 let input = "0";
 
 let operatorPresent = false;
+let operatorWasLastPressed = false;
 
 const display = document.querySelector(".display");
 const expressionDisplay = document.querySelector(".expression-display");
