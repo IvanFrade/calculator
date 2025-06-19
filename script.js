@@ -161,7 +161,8 @@ function initButtons() {
         button.addEventListener("click", () => {
             addNumber(button.textContent);
         });
-        button.addEventListener("touchstart", () => {
+        button.addEventListener("touchstart", (e) => {
+            e.preventDefault();
             addNumber(button.textContent);
         });
     }
@@ -171,26 +172,38 @@ function initButtons() {
         button.addEventListener("click", () => {
             addOperator(button.textContent);
         });
-        button.addEventListener("touchstart", () => {
+        button.addEventListener("touchstart", (e) => {         
+            e.preventDefault();
             addOperator(button.textContent);
         });
     }
 
     const decimalButton = document.querySelector(".decimal-button");
     decimalButton.addEventListener("click", () => { addDecimal(); });
-    decimalButton.addEventListener("touchstart", () => { addDecimal(); });
+    decimalButton.addEventListener("touchstart", (e) => {          
+        e.preventDefault();
+        addDecimal(); 
+    });
 
     const operateButton = document.querySelector(".operate-button");
     operateButton.addEventListener("click", () => { decodeOperation(); });
-    operateButton.addEventListener("touchstart", () => { decodeOperation(); });     
+    operateButton.addEventListener("touchstart", (e) => {          
+        e.preventDefault();
+        decodeOperation(); 
+    });     
 
     const clearButton = document.querySelector(".clear-button");
     clearButton.addEventListener("click", () => { clearScreen(); });
-    clearButton.addEventListener("touchstart", () => { clearScreen(); });
+    clearButton.addEventListener("touchstart", (e) => {          
+        e.preventDefault();
+        clearScreen(); 
+    });
 
     const deleteButton = document.querySelector(".delete-button");
     deleteButton.addEventListener("click", () => { deleteDigit(); });
-    deleteButton.addEventListener("touchstart", () => { deleteDigit(); });
+    deleteButton.addEventListener("touchstart", (e) => {          
+        e.preventDefault();
+        deleteDigit();});
 }
 
 let expression = "";                    // Math expression that will be evaluated
