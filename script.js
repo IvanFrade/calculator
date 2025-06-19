@@ -32,14 +32,14 @@ function subtract(a, b) {
 }
 
 function multiply(a, b) {
-    return (a * b).toFixed(10);     // Round to 10 decimals
+    return String(a * b).substring(0, 12);     // Round to 10 decimals
 }   
 
 function divide(a, b) {
     if (b === 0)
         return "ERROR";
     else
-        return (a / b).toFixed(10); // Round to 10 decimals
+        return String(a / b).substring(0, 12); // Round to 10 decimals
 }
 
 function operate(a, b, op) {
