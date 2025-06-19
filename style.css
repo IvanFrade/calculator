@@ -16,7 +16,7 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-color: wheat;
+    background-color: silver;
 }
 
 .keypad {
@@ -38,6 +38,18 @@ button {
     height: 50px;
     border-radius: 5px;
     flex-grow: 2;
+    color: black;
+    background-color: white;
+    font-weight: bold;
+    transition-duration: 0.4s;
+}
+
+button:hover {
+    background-color: wheat;
+}
+
+button:active {
+    transform: scale(0.8);
 }
 
 .display {
@@ -46,7 +58,7 @@ button {
     color: greenyellow;
     padding: 5px;
     border-radius: 5px;
-    border: 2px solid silver;
+    border: 2px solid white;
 }
 
 .input-display {
