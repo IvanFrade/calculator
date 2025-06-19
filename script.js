@@ -20,6 +20,7 @@ function decodeOperation() {
     operatorPresent = false;
     operatorWasLastPressed = false;
     resultInMemory = true;
+    canDelete = false;
 }
 
 function add(a, b) {
@@ -77,34 +78,52 @@ function updateExpressionDisplay() {
 }
 
 function clearScreen() {
-    operatorWasLastPressed = false;
-
     expression = "";
     input = "0";
 
     updateDisplay();
     updateExpressionDisplay();
+
+    operatorWasLastPressed = false;
+    operatorPresent = false;
+    canDelete = false;
+}
+
+function deleteDigit() {
+    if (!canDelete) return; // If nothing can be deleted, do nothing
+
+    if (input.length === 1) {
+        input = "0";
+        expression = "";
+        canDelete = false;
+    } else {
+        input = input.slice(0, -1);
+        expression = expression.slice(0, -1);
+    }
+
+    updateDisplay();
 }
 
 
 // Number is pressed
 function addNumber(n) {
-    operatorWasLastPressed = false;
-
     // Check wether the calculator is displaying a previous result: in such cases, start over 
-    if (resultInMemory) {
+    // When user starts typing digits directly after an operation, the operation result is discarded
+    if (resultInMemory || input === "0") {
         expression = "";
         input = "";
     }
-
+    
+    input += n;
     expression += n;
-
-    if (input === "0") input = n; // Necessary to avoid appending the first digit to the placeholder 0
-    else input += n;
     
     updateDisplay();
+    console.log(`Input: ${input}, Expression: ${expression}\n`);
+    
 
+    operatorWasLastPressed = false;
     resultInMemory = false;
+    canDelete = true;
 }
 
 // Operator is pressed
@@ -121,6 +140,7 @@ function addOperator(op) {
     operatorPresent = true;
     operatorWasLastPressed = true;
     resultInMemory = false;
+    canDelete = false;
 }
 
 function addDecimal() {
@@ -131,6 +151,8 @@ function addDecimal() {
 
         updateDisplay();
     }
+
+    canDelete = true;
 }
 
 function initButtons() {
@@ -156,6 +178,7 @@ function initButtons() {
 
     const decimalButton = document.querySelector(".decimal-button");
     decimalButton.addEventListener("click", () => { addDecimal(); });
+    decimalButton.addEventListener("touchstart", () => { addDecimal(); });
 
     const operateButton = document.querySelector(".operate-button");
     operateButton.addEventListener("click", () => { decodeOperation(); });
@@ -164,14 +187,19 @@ function initButtons() {
     const clearButton = document.querySelector(".clear-button");
     clearButton.addEventListener("click", () => { clearScreen(); });
     clearButton.addEventListener("touchstart", () => { clearScreen(); });
+
+    const deleteButton = document.querySelector(".delete-button");
+    deleteButton.addEventListener("click", () => { deleteDigit(); });
+    deleteButton.addEventListener("touchstart", () => { deleteDigit(); });
 }
 
-let expression = "";
-let input = "0";
+let expression = "";                    // Math expression that will be evaluated
+let input = "0";                        // User input or result currently displaying to main screen
 
-let operatorPresent = false;
-let operatorWasLastPressed = false;
-let resultInMemory = false;
+let operatorPresent = false;            // Tracks wether an operator is already present in the current expression
+let operatorWasLastPressed = false;     // Tracks wether last pressed button was an operator, to inhibit double operator presses
+let resultInMemory = false;             // Tracks wether the currently displayed value is a result of a previous operation
+let canDelete = false;                  // Tracks wether there are any digits to delete
 
 const display = document.querySelector(".input-display");
 const expressionDisplay = document.querySelector(".expression-display");
