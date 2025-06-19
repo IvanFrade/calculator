@@ -13,7 +13,7 @@ function decodeOperation() {
         expression = values[0];
     } else {
         // If the operation is valid, operate() is called to parse the result
-        operate(parseInt(values[0]), parseInt(values[2]), values[1]);
+        operate(parseFloat(values[0]), parseFloat(values[2]), values[1]);
     }    
 
     // After decoding/evaluating, toggles are "reset" 
@@ -31,14 +31,14 @@ function subtract(a, b) {
 }
 
 function multiply(a, b) {
-    return a * b;
-}
+    return (a * b).toFixed(10);     // Round to 10 decimals
+}   
 
 function divide(a, b) {
     if (b === 0)
         return "ERROR";
     else
-        return a / b;
+        return (a / b).toFixed(10); // Round to 10 decimals
 }
 
 function operate(a, b, op) {
@@ -123,6 +123,16 @@ function addOperator(op) {
     resultInMemory = false;
 }
 
+function addDecimal() {
+    // Only add a decimal if current number doesn't already have one  
+    if (!input.includes(".")) {
+        input += ".";
+        expression += ".";
+
+        updateDisplay();
+    }
+}
+
 function initButtons() {
     const numberButtons = document.querySelectorAll(".number-button");
     for (let button of numberButtons) {
@@ -143,6 +153,9 @@ function initButtons() {
             addOperator(button.textContent);
         });
     }
+
+    const decimalButton = document.querySelector(".decimal-button");
+    decimalButton.addEventListener("click", () => { addDecimal(); });
 
     const operateButton = document.querySelector(".operate-button");
     operateButton.addEventListener("click", () => { decodeOperation(); });
